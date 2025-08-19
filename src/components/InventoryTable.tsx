@@ -10,11 +10,9 @@ interface InventoryTableProps {
 export const InventoryTable = ({ data }: InventoryTableProps) => {
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case "critical":
+      case "Low Stock":
         return "destructive";
-      case "low":
-        return "default";
-      case "overstock":
+      case "Overstock":
         return "secondary";
       default:
         return "default";
@@ -23,14 +21,12 @@ export const InventoryTable = ({ data }: InventoryTableProps) => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "critical":
+      case "Low Stock":
         return "text-destructive";
-      case "low":
-        return "text-warning";
-      case "overstock":
-        return "text-info";
+      case "Overstock":
+        return "text-muted-foreground";
       default:
-        return "text-success";
+        return "text-primary";
     }
   };
 
@@ -39,7 +35,7 @@ export const InventoryTable = ({ data }: InventoryTableProps) => {
       <CardHeader>
         <CardTitle>Inventory Optimization</CardTitle>
         <CardDescription>
-          Current stock levels, reorder points, and recommendations
+          Supplement inventory levels, reorder points, and optimization recommendations
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -47,30 +43,36 @@ export const InventoryTable = ({ data }: InventoryTableProps) => {
           <TableHeader>
             <TableRow>
               <TableHead>Product</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead>Current Stock</TableHead>
               <TableHead>Reorder Point</TableHead>
               <TableHead>Safety Stock</TableHead>
-              <TableHead>Recommended Order</TableHead>
+              <TableHead>Optimal Order Qty</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Recommendation</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.product}>
+            {data.map((item, index) => (
+              <TableRow key={index}>
                 <TableCell className="font-medium">{item.product}</TableCell>
+                <TableCell>{item.category}</TableCell>
                 <TableCell>{item.currentStock}</TableCell>
                 <TableCell>{item.reorderPoint}</TableCell>
                 <TableCell>{item.safetyStock}</TableCell>
                 <TableCell className="font-semibold">
-                  {item.recommendedOrder > 0 ? item.recommendedOrder : "—"}
+                  {item.optimalOrderQuantity}
                 </TableCell>
                 <TableCell>
                   <Badge 
                     variant={getStatusVariant(item.status)}
                     className={getStatusColor(item.status)}
                   >
-                    {item.status.toUpperCase()}
+                    {item.status}
                   </Badge>
+                </TableCell>
+                <TableCell className="max-w-xs text-sm">
+                  {item.recommendation}
                 </TableCell>
               </TableRow>
             ))}

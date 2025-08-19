@@ -44,11 +44,11 @@ const Index = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <TrendingUp className="h-8 w-8 text-primary" />
-              <h1 className="text-3xl font-bold">E-commerce Analytics Dashboard</h1>
+              <h1 className="text-3xl font-bold">Supplement Sales Analytics</h1>
             </div>
           </div>
           <p className="text-muted-foreground mt-2">
-            Demand Forecasting and Inventory Optimization System
+            Demand Forecasting and Inventory Optimization for Supplement Retail
           </p>
         </div>
       </div>

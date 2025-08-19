@@ -34,7 +34,7 @@ const Dashboard = () => {
           </div>
           <div className="flex items-center space-x-2 mt-4">
             <TrendingUp className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">E-commerce Analytics Dashboard</h1>
+            <h1 className="text-3xl font-bold">Supplement Analytics Dashboard</h1>
           </div>
           <p className="text-muted-foreground mt-2">
             Analytics Overview for {selectedProduct}
