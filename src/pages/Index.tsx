@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
-import { DashboardHeader } from "@/components/DashboardHeader";
+import { useNavigate } from "react-router-dom";
 import { ProductSelector } from "@/components/ProductSelector";
-import { SalesForecastChart } from "@/components/SalesForecastChart";
-import { DemandPatternChart } from "@/components/DemandPatternChart";
-import { InventoryTable } from "@/components/InventoryTable";
 import { 
   generateProducts, 
   generateSalesData, 
-  generateForecasts, 
-  calculateInventoryOptimization,
-  SalesData,
-  InventoryOptimization 
+  generateForecasts,
+  SalesData
 } from "@/utils/dataGenerator";
 import { TrendingUp, BarChart3 } from "lucide-react";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [salesData, setSalesData] = useState<SalesData[]>([]);
-  const [inventoryData, setInventoryData] = useState<InventoryOptimization[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [products, setProducts] = useState<string[]>([]);
 
@@ -25,15 +20,21 @@ const Index = () => {
     const productList = generateProducts();
     const rawSalesData = generateSalesData(productList, 90); // 90 days of data
     const forecastData = generateForecasts(rawSalesData);
-    const inventoryOptimization = calculateInventoryOptimization(forecastData);
     
     const productNames = productList.map(p => p.name);
     
     setSalesData(forecastData);
-    setInventoryData(inventoryOptimization);
     setProducts(productNames);
     setSelectedProduct(productNames[0]);
   }, []);
+
+  const handleAnalyzeClick = () => {
+    if (selectedProduct) {
+      navigate("/dashboard", { 
+        state: { selectedProduct, salesData } 
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,35 +55,15 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 space-y-6">
-        {/* KPI Cards */}
-        <DashboardHeader />
-
-        {/* Product Selector */}
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-3">
-          <div className="lg:col-span-1">
-            <ProductSelector 
-              products={products}
-              selectedProduct={selectedProduct}
-              onProductChange={setSelectedProduct}
-            />
-          </div>
-          
-          {/* Overall Demand Patterns */}
-          <div className="lg:col-span-2">
-            <DemandPatternChart data={salesData} />
-          </div>
-        </div>
-
-        {/* Sales Forecast Chart */}
-        {selectedProduct && (
-          <SalesForecastChart 
-            data={salesData}
+        {/* Product Selection */}
+        <div className="max-w-2xl mx-auto">
+          <ProductSelector 
+            products={products}
             selectedProduct={selectedProduct}
+            onProductChange={setSelectedProduct}
+            onAnalyzeClick={handleAnalyzeClick}
           />
-        )}
-
-        {/* Inventory Optimization Table */}
-        <InventoryTable data={inventoryData} />
+        </div>
 
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground pt-8 border-t">
