@@ -8,25 +8,14 @@ interface InventoryTableProps {
 }
 
 export const InventoryTable = ({ data }: InventoryTableProps) => {
-  const getStatusVariant = (status: string) => {
+  const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case "Low Stock":
-        return "destructive";
+        return "bg-destructive/10 text-destructive/80 border-destructive/20";
       case "Overstock":
-        return "secondary";
+        return "bg-secondary/10 text-secondary-foreground/70 border-secondary/20";
       default:
-        return "default";
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Low Stock":
-        return "text-destructive";
-      case "Overstock":
-        return "text-muted-foreground";
-      default:
-        return "text-primary";
+        return "bg-primary/10 text-primary/80 border-primary/20";
     }
   };
 
@@ -65,8 +54,8 @@ export const InventoryTable = ({ data }: InventoryTableProps) => {
                 </TableCell>
                 <TableCell>
                   <Badge 
-                    variant={getStatusVariant(item.status)}
-                    className={getStatusColor(item.status)}
+                    variant="outline"
+                    className={getStatusBadgeClass(item.status)}
                   >
                     {item.status}
                   </Badge>

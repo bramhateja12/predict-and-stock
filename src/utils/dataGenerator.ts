@@ -90,8 +90,11 @@ export const generateProducts = (): Product[] => {
 
 export const generateSalesData = (products: Product[], days: number): SalesData[] => {
   const salesData: SalesData[] = [];
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  // Using date range from Kaggle supplement sales dataset (2020-2023)
+  const startDate = new Date('2020-01-01');
+  const endDate = new Date('2023-12-31');
+  const totalDays = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  days = Math.min(days, totalDays);
 
   for (let i = 0; i < days; i++) {
     const currentDate = new Date(startDate);
