@@ -22,7 +22,7 @@ export const SalesForecastChart = ({ data, selectedProduct }: SalesForecastChart
       <CardHeader>
         <CardTitle>Sales Forecast - {selectedProduct}</CardTitle>
         <CardDescription>
-          Historical sales data and forecast predictions for the last 30 days
+          This data has taken the data from kaggle and created the predictions from that data
         </CardDescription>
       </CardHeader>
       <CardContent>
